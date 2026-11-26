@@ -11,6 +11,10 @@ LINE = "I asked AI to write my will; it left everything to my search history."
 
 
 def main() -> int:
+    # The entry is exactly one line: guard against accidental edits that
+    # would make it empty, multi-line, or over the one-liner limit.
+    assert 1 <= len(LINE) <= 200, f"entry line must be 1-200 chars, got {len(LINE)}"
+    assert "\n" not in LINE, "entry line must not contain a newline"
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
